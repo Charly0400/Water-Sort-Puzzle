@@ -44,15 +44,15 @@ public class BottlController : MonoBehaviour
         botlleMaskSR.material.SetFloat("_FillAmount", fillAmount[numberOfColorInBottle]);
         originalPosition = transform.position;
         UpdateColorOnShader();
-        updateTopColorValues();
+        UpdateTopColorValues();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyUp(KeyCode.Escape) && justThisBottle == true)
+        /*if (Input.GetKeyUp(KeyCode.Escape) && justThisBottle == true)
         {
-            updateTopColorValues();
+            UpdateTopColorValues();
 
             if (bottleControllerRef.FillBottleCheck(topColor))
             {
@@ -67,8 +67,8 @@ public class BottlController : MonoBehaviour
                 bottleControllerRef.UpdateColorOnShader();
             }
             CalculateRotationIndex(4 - bottleControllerRef.numberOfColorInBottle);
-            StartCoroutine(RotateBottle());
-        }
+            StartCoroutine(RotateBottle()); 
+        } */
     }
 
     public void StartColorTransfer()
@@ -210,7 +210,7 @@ public class BottlController : MonoBehaviour
             yield return new WaitForEndOfFrame();
         }
 
-        updateTopColorValues();
+        UpdateTopColorValues();
         angleValue = 0;
         transform.eulerAngles = new Vector3(0, 0, angleValue);
         botlleMaskSR.material.SetFloat("_SARM", scaleAndRotationMult.Evaluate(angleValue));
@@ -219,7 +219,7 @@ public class BottlController : MonoBehaviour
         StartCoroutine(MoveBottleBack());
     }
 
-    public void updateTopColorValues()
+    public void UpdateTopColorValues()
     {
         if (numberOfColorInBottle != 0)
         {
@@ -242,7 +242,6 @@ public class BottlController : MonoBehaviour
                     }
                 }
             }
-
             else if (numberOfColorInBottle == 3)
             {
                 if (bottleColors[2].Equals(bottleColors[1]))
@@ -254,7 +253,6 @@ public class BottlController : MonoBehaviour
                     }
                 }
             }
-
             else if (numberOfColorInBottle == 2)
             {
                 if (bottleColors[1].Equals(bottleColors[0]))
@@ -262,9 +260,8 @@ public class BottlController : MonoBehaviour
                     numberOfTopColorLayer = 2;
                 }
             }
-
-            rotationIndex = 3 - (numberOfColorInBottle - numberOfTopColorLayer);
         }
+        rotationIndex = 3 - (numberOfColorInBottle - numberOfTopColorLayer);
     }
 
     public bool FillBottleCheck(Color colorCheck)

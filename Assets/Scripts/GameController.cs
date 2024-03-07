@@ -7,7 +7,6 @@ public class GameController : MonoBehaviour
     public BottlController firstBottle;
     public BottlController secondBottle;
 
-    // Update is called once per frame
     void Update()
     {
         if (Input.GetMouseButtonDown(0))
@@ -19,32 +18,35 @@ public class GameController : MonoBehaviour
 
             if (hit.collider != null)
             {
-                BottlController hitBottle = hit.collider.GetComponent<BottlController>();
-                if (hitBottle != null)
+                BottlController clickedBottle = hit.collider.GetComponent<BottlController>();
+
+                if (clickedBottle != null)
                 {
                     if (firstBottle == null)
                     {
-                        firstBottle = hitBottle;
+                        firstBottle = clickedBottle;
                     }
                     else
                     {
-                        if (firstBottle == hitBottle)
+                        if (firstBottle == clickedBottle)
                         {
                             firstBottle = null;
                         }
                         else
                         {
-                            secondBottle = hitBottle;
+                            secondBottle = clickedBottle;
 
+                            // Asignar referencias correctamente en ambas direcciones
                             firstBottle.bottleControllerRef = secondBottle;
-                            firstBottle.updateTopColorValues();
-                            secondBottle.updateTopColorValues();
+                            secondBottle.bottleControllerRef = firstBottle;
 
+                            // Verificar si la botella de destino puede recibir el líquido
                             if (secondBottle.FillBottleCheck(firstBottle.topColor))
                             {
                                 firstBottle.StartColorTransfer();
                             }
 
+                            // Limpiar referencias después de la transferencia
                             firstBottle = null;
                             secondBottle = null;
                         }

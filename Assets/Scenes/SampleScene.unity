@@ -372,7 +372,7 @@ MonoBehaviour:
   topColor: {r: 0, g: 0, b: 0, a: 0}
   numberOfTopColorLayer: 4
   bottleControllerRef: {fileID: 0}
-  justThisBottle: 1
+  justThisBottle: 0
   leftRotationPoint: {fileID: 44556321}
   rightRotationPoint: {fileID: 742196405}
 --- !u!212 &655806872
@@ -787,11 +787,11 @@ MonoBehaviour:
   - 71
   - 83
   - 90
-  numberOfColorInBottle: 2
+  numberOfColorInBottle: 4
   topColor: {r: 0, g: 0, b: 0, a: 0}
   numberOfTopColorLayer: 4
   bottleControllerRef: {fileID: 0}
-  justThisBottle: 1
+  justThisBottle: 0
   leftRotationPoint: {fileID: 1116481129}
   rightRotationPoint: {fileID: 1109861253}
 --- !u!61 &731520941
@@ -1500,7 +1500,7 @@ MonoBehaviour:
   topColor: {r: 0, g: 0, b: 0, a: 0}
   numberOfTopColorLayer: 4
   bottleControllerRef: {fileID: 0}
-  justThisBottle: 1
+  justThisBottle: 0
   leftRotationPoint: {fileID: 513500116}
   rightRotationPoint: {fileID: 1727852708}
 --- !u!212 &1412243947
@@ -1715,9 +1715,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bottleColors:
-  - {r: 0.38823533, g: 0.7176471, b: 0.1764706, a: 1}
-  - {r: 0.38431376, g: 0.70980394, b: 0.1764706, a: 1}
-  - {r: 0.38823533, g: 0.7176471, b: 0.1764706, a: 1}
+  - {r: 0.8745099, g: 0.62352943, b: 0.13333334, a: 1}
+  - {r: 0.7725491, g: 0.21960786, b: 0.23137257, a: 1}
+  - {r: 0.3137255, g: 0.69411767, b: 0.69803923, a: 1}
   - {r: 0.38431376, g: 0.70980394, b: 0.1764706, a: 1}
   botlleMaskSR: {fileID: 1946514857}
   timetoRotate: 2
@@ -1844,7 +1844,7 @@ MonoBehaviour:
   topColor: {r: 0, g: 0, b: 0, a: 0}
   numberOfTopColorLayer: 4
   bottleControllerRef: {fileID: 0}
-  justThisBottle: 1
+  justThisBottle: 0
   leftRotationPoint: {fileID: 2107274711}
   rightRotationPoint: {fileID: 1689117107}
 --- !u!212 &1641431754
