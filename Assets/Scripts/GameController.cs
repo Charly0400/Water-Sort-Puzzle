@@ -4,55 +4,116 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
-    public BottlController firstBottle;
-    public BottlController secondBottle;
+    public GameObject bottlePrefab;
+    public Transform bottlesParent;
+
+    private List<BottlController> bottles = new List<BottlController>();
+    private bool levelCompleted = false;
+
+    void Start()
+    {
+        GenerateRandomLevel();
+    }
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (!levelCompleted)
         {
-            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Vector2 mousePos2D = new Vector2(mousePos.x, mousePos.y);
-
-            RaycastHit2D hit = Physics2D.Raycast(mousePos2D, Vector2.zero);
-
-            if (hit.collider != null)
+            // Verificar si se completó el nivel
+            if (AllBottlesFilled() && BottlesInCorrectOrder())
             {
-                BottlController clickedBottle = hit.collider.GetComponent<BottlController>();
-
-                if (clickedBottle != null)
-                {
-                    if (firstBottle == null)
-                    {
-                        firstBottle = clickedBottle;
-                    }
-                    else
-                    {
-                        if (firstBottle == clickedBottle)
-                        {
-                            firstBottle = null;
-                        }
-                        else
-                        {
-                            secondBottle = clickedBottle;
-
-                            // Asignar referencias correctamente en ambas direcciones
-                            firstBottle.bottleControllerRef = secondBottle;
-                            secondBottle.bottleControllerRef = firstBottle;
-
-                            // Verificar si la botella de destino puede recibir el líquido
-                            if (secondBottle.FillBottleCheck(firstBottle.topColor))
-                            {
-                                firstBottle.StartColorTransfer();
-                            }
-
-                            // Limpiar referencias después de la transferencia
-                            firstBottle = null;
-                            secondBottle = null;
-                        }
-                    }
-                }
+                levelCompleted = true;
+                StartCoroutine(GenerateNewLevel());
             }
         }
+    }
+
+    void GenerateRandomLevel()
+    {
+        // Generar entre 4 y 6 botellas
+        int numBottles = Random.Range(4, 7);
+        int emptyBottles = 0;
+        int maxColors = 3; // Máximo de colores distintos para las botellas
+
+        // Lista de colores posibles
+        List<Color> possibleColors = new List<Color>();
+        possibleColors.Add(Color.red);
+        possibleColors.Add(Color.blue);
+        possibleColors.Add(Color.green);
+        possibleColors.Add(Color.yellow);
+
+        for (int i = 0; i < numBottles; i++)
+        {
+            GameObject newBottle = Instantiate(bottlePrefab, bottlesParent);
+
+            // Asignar un color aleatorio a la botella
+            BottlController bottleController = newBottle.GetComponent<BottlController>();
+            Color[] colors = new Color[4];
+            int colorIndex = 0;
+            for (int j = 0; j < 4; j++)
+            {
+                if (colorIndex >= maxColors)
+                    colorIndex = 0;
+                colors[j] = possibleColors[colorIndex];
+                colorIndex++;
+            }
+            bottleController.SetBottleColors(colors);
+
+            // Asignar un nivel de llenado aleatorio a la botella
+            int fillLevel = Random.Range(0, 5); // Nivel de llenado entre 0 y 4
+            bottleController.numberOfColorInBottle = fillLevel;
+
+            bottles.Add(bottleController);
+
+            // Al menos dos botellas estarán vacías
+            if (emptyBottles < 2)
+            {
+                bottleController.ClearBottle();
+                emptyBottles++;
+            }
+        }
+    }
+
+    bool AllBottlesFilled()
+    {
+        foreach (BottlController bottle in bottles)
+        {
+            if (bottle.numberOfColorInBottle != 4)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    bool BottlesInCorrectOrder()
+    {
+        Color lastColor = bottles[0].topColor;
+
+        foreach (BottlController bottle in bottles)
+        {
+            if (bottle.topColor != lastColor)
+            {
+                return false;
+            }
+            lastColor = bottle.topColor;
+        }
+        return true;
+    }
+
+    IEnumerator GenerateNewLevel()
+    {
+        // Esperar un segundo antes de generar un nuevo nivel
+        yield return new WaitForSeconds(1.0f);
+
+        // Destruir las botellas actuales
+        foreach (BottlController bottle in bottles)
+        {
+            Destroy(bottle.gameObject);
+        }
+        bottles.Clear();
+
+        // Generar un nuevo nivel
+        GenerateRandomLevel();
     }
 }
