@@ -1,4 +1,4 @@
-using System.Collections;
+/*using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,7 +7,7 @@ public class GameController : MonoBehaviour
     public GameObject bottlePrefab;
     public Transform bottlesParent;
 
-    private List<BottlController> bottles = new List<BottlController>();
+    private List<BottleController> bottles = new List<BottleController>();
     private bool levelCompleted = false;
 
     void Start()
@@ -47,7 +47,7 @@ public class GameController : MonoBehaviour
             GameObject newBottle = Instantiate(bottlePrefab, bottlesParent);
 
             // Asignar un color aleatorio a la botella
-            BottlController bottleController = newBottle.GetComponent<BottlController>();
+            BottleController bottleController = newBottle.GetComponent<BottleController>();
             Color[] colors = new Color[4];
             int colorIndex = 0;
             for (int j = 0; j < 4; j++)
@@ -76,7 +76,7 @@ public class GameController : MonoBehaviour
 
     bool AllBottlesFilled()
     {
-        foreach (BottlController bottle in bottles)
+        foreach (BottleController bottle in bottles)
         {
             if (bottle.numberOfColorInBottle != 4)
             {
@@ -90,7 +90,7 @@ public class GameController : MonoBehaviour
     {
         Color lastColor = bottles[0].topColor;
 
-        foreach (BottlController bottle in bottles)
+        foreach (BottleController bottle in bottles)
         {
             if (bottle.topColor != lastColor)
             {
@@ -107,7 +107,7 @@ public class GameController : MonoBehaviour
         yield return new WaitForSeconds(1.0f);
 
         // Destruir las botellas actuales
-        foreach (BottlController bottle in bottles)
+        foreach (BottleController bottle in bottles)
         {
             Destroy(bottle.gameObject);
         }
@@ -116,4 +116,4 @@ public class GameController : MonoBehaviour
         // Generar un nuevo nivel
         GenerateRandomLevel();
     }
-}
+}*/
